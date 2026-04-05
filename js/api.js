@@ -3,7 +3,7 @@
  * Todos los módulos del frontend importan desde aquí.
  */
 
-const API_BASE = window.TALLERPRO_API || "https://tallerpro-backend-production.up.railway.app/api";
+const API_BASE = window.TALLERPRO_API || "http://localhost:5000/api";
 
 // ── Token JWT ────────────────────────────────────────────────────────────────
 const Auth = {
@@ -195,5 +195,6 @@ function requireAuth() {
 }
 
 // Exportar todo globalmente (vanilla JS sin bundler)
-window.API = { Auth, AuthAPI, DashboardAPI, ClientesAPI, VehiculosAPI, OrdenesAPI, EventosAPI, IAAPI };
+window.API = { Auth, AuthAPI, DashboardAPI, ClientesAPI, VehiculosAPI, OrdenesAPI, EventosAPI, IAAPI,
+               apiGet, apiPost, apiPut, apiDelete, apiUpload, apiDownloadPDF };
 window.ui  = { fmtCLP, fmtFecha, badge, toast, loading };
