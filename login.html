@@ -50,7 +50,7 @@
   <script src="js/api.js"></script>
   <script>
     // Redirigir si ya está logueado
-    if (API.Auth.isLogged()) window.location.href = "/index.html";
+    if (API.Auth.isLogged()) window.location.href = "/tallerpro-frontend/index.html";
 
     document.getElementById("password").addEventListener("keydown", e => {
       if (e.key === "Enter") doLogin();
@@ -70,7 +70,7 @@
         const res = await API.AuthAPI.login(email, password);
         API.Auth.setToken(res.access_token);
         API.Auth.setUser(res.usuario);
-        window.location.href = "/index.html";
+        window.location.href = "/tallerpro-frontend/index.html";
       } catch (e) {
         errEl.textContent = e.message || "Error al iniciar sesión.";
         errEl.style.display = "";
