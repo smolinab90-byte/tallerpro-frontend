@@ -40,6 +40,7 @@ async function navTo(page) {
       case "cotizaciones": await renderCotizaciones(); break;
       case "agenda":       await renderAgenda(); break;
       case "ia":           renderIA(); break;
+      case "precompras":   await renderPrecompras(); break;
       default:             content.innerHTML = "<p>Página no encontrada</p>";
     }
   } catch (e) {
@@ -173,6 +174,8 @@ async function renderOTDetalle(id) {
     <div class="page-header">
       <div style="display:flex;align-items:center;gap:12px">
         <button class="btn btn-sm btn-ghost" onclick="navTo('ots')">← Volver</button>
+        <button class="btn btn-sm" onclick="renderRecepcionOT(${ot.id})">📋 Recepción</button>
+        <button class="btn btn-sm" onclick="renderRecepcionOT(${ot.id})">📋 Recepción</button>
         <div>
           <div class="page-title">${ot.numero} — ${ot.patente}</div>
           <div class="page-subtitle">${ot.cliente_nombre||""} · ${ot.vehiculo_desc||""}</div>
