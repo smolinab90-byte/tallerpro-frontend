@@ -907,4 +907,27 @@ async function handleGlobalSearch(q) {
       ]);
       const results = [
         ...vehiculos.slice(0,3).map(v => ({ type:"VEH", label:`${v.patente} — ${v.marca} ${v.modelo}`, action: () => { renderHistorial(v.patente); hideSearchDrop(); } })),
-        ...clientes.slice(0,3).map(c => ({ type:"C
+        ...clientes.slice(0,3).map(c => ({ type:"CLI", label:c.nombre, action: () => { navTo("clientes"); hideSearchDrop(); } })),
+        ...(ots.items||[]).slice(0,3).map(o => ({ type:"OT", label:`${o.numero} · ${o.patente} (${o.estado})`, action: () => { abrirOT(o.id); hideSearchDrop(); } })),
+      ];
+      const drop = document.getElementById("searchDrop");
+      drop.innerHTML = results.length === 0
+        ? `<div class="search-result" style="color:var(--text-ter)">Sin resultados</div>`
+        : results.map((r,i) => `
+            <div class="search-result" onclick="window._sr[${i}].action()">
+              <span class="search-result-type">${r.type}</span>
+              ${r.label}
+            </div>`).join("");
+      window._sr = results;
+      drop.classList.remove("hidden");
+    } catch {}
+  }, 300);
+}
+
+function showSearchDrop() {
+  const q = document.getElementById("globalSearch").value;
+  if (q.length >= 2) handleGlobalSearch(q);
+}
+function hideSearchDrop() {
+  document.getElementById("searchDrop")?.classList.add("hidden");
+}
