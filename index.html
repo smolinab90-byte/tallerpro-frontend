@@ -6,7 +6,7 @@
   <title>TallerPro</title>
   <link rel="stylesheet" href="css/main.css">
   <!-- Configurar URL del backend antes de cargar api.js -->
-  <script>window.TALLERPRO_API = "https://tallerpro-backend-production.up.railway.app/api";</script>
+  <script>window.TALLERPRO_API = "http://localhost:5000/api";</script>
 </head>
 <body>
 <div class="app-shell" id="app" style="display:none">
@@ -62,6 +62,9 @@
       </div>
       <div class="nav-item" data-page="agenda" onclick="navTo('agenda')">
         <span class="nav-icon">▦</span><span>Agenda</span>
+      </div>
+      <div class="nav-item" data-page="kanban" onclick="navTo('kanban')">
+        <span class="nav-icon">📋</span><span>Kanban</span>
       </div>
       <div class="nav-item" data-page="inventario" onclick="navTo('inventario')">
         <span class="nav-icon">📦</span><span>Inventario</span>
@@ -213,5 +216,6 @@
 <script src="js/pages.js"></script>
   <script src="js/modulos.js"></script>
   <script src="js/inventario.js"></script>
+  <script src="js/kanban.js"></script>
 </body>
 </html>

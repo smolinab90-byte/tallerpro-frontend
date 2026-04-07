@@ -42,6 +42,7 @@ async function navTo(page) {
       case "ia":           renderIA(); break;
       case "precompras":   await renderPrecompras(); break;
       case "inventario":   await renderInventario(); break;
+      case "kanban":        await renderKanban(); break;
       default:             content.innerHTML = "<p>Página no encontrada</p>";
     }
   } catch (e) {
