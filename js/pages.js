@@ -11,7 +11,7 @@ let agendaAnio    = new Date().getFullYear();
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", async () => {
-  if (!API.Auth.isLogged()) { window.location.href = "/login.html"; return; }
+  if (!API.Auth.isLogged()) { window.location.href = "/tallerpro-frontend/login.html"; return; }
   const user = API.Auth.getUser();
   if (user) {
     document.getElementById("userName").textContent = user.nombre.split(" ")[0];
@@ -52,7 +52,7 @@ async function navTo(page) {
 
 function doLogout() {
   API.Auth.logout();
-  window.location.href = "/login.html";
+  window.location.href = "/tallerpro-frontend/login.html";
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
