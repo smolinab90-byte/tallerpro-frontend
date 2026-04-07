@@ -41,6 +41,7 @@ async function navTo(page) {
       case "agenda":       await renderAgenda(); break;
       case "ia":           renderIA(); break;
       case "precompras":   await renderPrecompras(); break;
+      case "inventario":   await renderInventario(); break;
       default:             content.innerHTML = "<p>Página no encontrada</p>";
     }
   } catch (e) {
@@ -58,6 +59,15 @@ async function renderDashboard() {
   const d = await API.DashboardAPI.stats();
   const k = d.kpis;
   document.getElementById("navBadgeOT").textContent = k.ot_abiertas;
+  // Update inventory alert badge
+  try {
+    const invData = await API.InventarioAPI?.listar({per_page:1});
+    const badgeInv = document.getElementById("navBadgeInv");
+    if (badgeInv && invData?.alertas > 0) {
+      badgeInv.textContent = invData.alertas;
+      badgeInv.style.display = "";
+    }
+  } catch(e) {}
 
   document.getElementById("mainContent").innerHTML = `
     <div class="page-header">
@@ -245,7 +255,7 @@ async function renderOTDetalle(id) {
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
           <select id="itemTipo" style="width:130px"><option value="repuesto">Repuesto</option><option value="mano_obra">Mano de obra</option></select>
           <input type="text" id="itemDesc" placeholder="Descripción" style="flex:1;min-width:160px">
-          <input type="text" id="itemCodigo" placeholder="Código parte" style="width:110px">
+          <input type="text" id="itemCodigo" placeholder="Código parte" style="width:110px" oninput="if(typeof buscarRepuestoEnOT!=='undefined')buscarRepuestoEnOT(this)">
           <input type="number" id="itemQty" placeholder="Cant." style="width:70px" value="1">
           <input type="number" id="itemPrecio" placeholder="Precio unit." style="width:120px">
           <button class="btn btn-primary btn-sm" onclick="agregarItem()">Agregar</button>
