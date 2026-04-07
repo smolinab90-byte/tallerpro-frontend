@@ -26,7 +26,7 @@ async function apiFetch(path, options = {}) {
 
   if (res.status === 401) {
     Auth.logout();
-    window.location.href = "/login.html";
+    window.location.href = "/tallerpro-frontend/login.html";
     return;
   }
 
@@ -188,7 +188,7 @@ function loading(btn, activo) {
 // ── Guard de autenticación ───────────────────────────────────────────────────
 function requireAuth() {
   if (!Auth.isLogged()) {
-    window.location.href = "/login.html";
+    window.location.href = "/tallerpro-frontend/login.html";
     return false;
   }
   return true;
