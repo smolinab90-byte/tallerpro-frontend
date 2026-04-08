@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (user) {
     document.getElementById("userName").textContent = user.nombre.split(" ")[0];
     document.getElementById("userAvatar").textContent = user.nombre[0].toUpperCase();
+  if (typeof aplicarPermisosUI === "function") aplicarPermisosUI();
   }
   document.getElementById("app").style.display = "";
   await navTo("dashboard");
@@ -43,6 +44,8 @@ async function navTo(page) {
       case "precompras":   await renderPrecompras(); break;
       case "inventario":   await renderInventario(); break;
       case "kanban":        await renderKanban(); break;
+      case "usuarios":      await renderUsuarios(); break;
+      case "perfil":        await renderPerfil(); break;
       default:             content.innerHTML = "<p>Página no encontrada</p>";
     }
   } catch (e) {
