@@ -22,9 +22,9 @@ const ROL_CONFIG = {
 
 // Permisos por módulo y rol
 const PERMISOS = {
-  admin:     ['dashboard','ots','ot-detalle','clientes','vehiculos','historial','cotizaciones','agenda','kanban','inventario','precompras','ia','usuarios','perfil'],
-  tecnico:   ['dashboard','ots','ot-detalle','clientes','vehiculos','historial','cotizaciones','agenda','kanban','inventario','precompras','ia','perfil'],
-  recepcion: ['dashboard','ots','ot-detalle','clientes','vehiculos','historial','agenda','kanban','perfil'],
+  admin:     ['dashboard','ots','ot-detalle','clientes','vehiculos','historial','cotizaciones','agenda','kanban','inventario','precompras','ia','usuarios','deudas','perfil'],
+  tecnico:   ['dashboard','ots','ot-detalle','clientes','vehiculos','historial','cotizaciones','agenda','kanban','inventario','precompras','ia','deudas','perfil'],
+  recepcion: ['dashboard','ots','ot-detalle','clientes','vehiculos','historial','agenda','kanban','deudas','perfil'],
 };
 
 function getRol() {
