@@ -17,6 +17,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("userName").textContent = user.nombre.split(" ")[0];
     document.getElementById("userAvatar").textContent = user.nombre[0].toUpperCase();
   if (typeof aplicarPermisosUI === "function") aplicarPermisosUI();
+  // Update deudas badge
+  try {
+    const deudas = await API.PagosAPI?.deudas();
+    const badge = document.getElementById("navBadgeDeudas");
+    if (badge && deudas?.length > 0) {
+      badge.textContent = deudas.length;
+      badge.style.display = "";
+    }
+  } catch(e) {}
   }
   document.getElementById("app").style.display = "";
   await navTo("dashboard");
@@ -45,6 +54,7 @@ async function navTo(page) {
       case "inventario":   await renderInventario(); break;
       case "kanban":        await renderKanban(); break;
       case "usuarios":      await renderUsuarios(); break;
+      case "deudas":        await renderDeudas(); break;
       case "perfil":        await renderPerfil(); break;
       default:             content.innerHTML = "<p>Página no encontrada</p>";
     }
@@ -212,6 +222,7 @@ async function renderOTDetalle(id) {
 
     <div class="tabs">
       <div class="tab active" onclick="switchTab('tab-diag',this)">Diagnóstico</div>
+      <div class="tab" onclick="switchTab('tab-pagos',this);renderTabPagos(${ot.id})">Pagos</div>
       <div class="tab" onclick="switchTab('tab-cot',this)">Cotización</div>
       <div class="tab" onclick="switchTab('tab-fotos',this)">Fotos</div>
       <div class="tab" onclick="switchTab('tab-estado',this)">Estado</div>
@@ -251,6 +262,11 @@ async function renderOTDetalle(id) {
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- TAB PAGOS -->
+    <div id="tab-pagos" class="hidden">
+      <div id="tab-pagos-inner"></div>
     </div>
 
     <!-- TAB COTIZACIÓN -->
@@ -305,7 +321,7 @@ async function renderOTDetalle(id) {
 }
 
 function switchTab(tabId, el) {
-  ["tab-diag","tab-cot","tab-fotos","tab-estado"].forEach(t => {
+  ["tab-diag","tab-cot","tab-fotos","tab-estado","tab-pagos"].forEach(t => {
     document.getElementById(t)?.classList.toggle("hidden", t !== tabId);
   });
   document.querySelectorAll(".tabs .tab").forEach(t => t.classList.remove("active"));
