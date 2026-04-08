@@ -11,7 +11,7 @@ let agendaAnio    = new Date().getFullYear();
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", async () => {
-  if (!API.Auth.isLogged()) { window.location.href = "/tallerpro-frontend/login.html"; return; }
+  if (!API.Auth.isLogged()) { window.location.href = "/login.html"; return; }
   const user = API.Auth.getUser();
   if (user) {
     document.getElementById("userName").textContent = user.nombre.split(" ")[0];
@@ -52,7 +52,7 @@ async function navTo(page) {
 
 function doLogout() {
   API.Auth.logout();
-  window.location.href = "/tallerpro-frontend/login.html";
+  window.location.href = "/login.html";
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
@@ -186,6 +186,7 @@ async function renderOTDetalle(id) {
       <div style="display:flex;align-items:center;gap:12px">
         <button class="btn btn-sm btn-ghost" onclick="navTo('ots')">← Volver</button>
         <button class="btn btn-sm" onclick="renderRecepcionOT(${ot.id})">📋 Recepción</button>
+        <button class="btn btn-sm" onclick="copiarLinkPortal(${ot.id})" title="Copiar link para el cliente">🔗 Link cliente</button>
         <button class="btn btn-sm" onclick="renderRecepcionOT(${ot.id})">📋 Recepción</button>
         <div>
           <div class="page-title">${ot.numero} — ${ot.patente}</div>
@@ -931,3 +932,18 @@ function showSearchDrop() {
 function hideSearchDrop() {
   document.getElementById("searchDrop")?.classList.add("hidden");
 }
+
+
+// ── Portal del cliente ─────────────────────────────────────────────
+async function copiarLinkPortal(ordenId) {
+  try {
+    // Obtener token desde el backend
+    const res = await apiFetch(`/ordenes/${ordenId}/portal`);
+    const link = res.link;
+    await navigator.clipboard.writeText(link);
+    ui.toast('🔗 Link copiado — envíalo al cliente');
+  } catch(e) {
+    ui.toast('Error al obtener el link', 'error');
+  }
+}
+window.copiarLinkPortal = copiarLinkPortal;
