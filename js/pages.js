@@ -534,18 +534,61 @@ async function renderClientes(q = "") {
     </div>`;
 }
 
+function setTipoCliente(tipo) {
+  window._tipoCliente = tipo;
+  const natural = document.getElementById("formClienteNatural");
+  const empresa = document.getElementById("formClienteEmpresa");
+  const btnN = document.getElementById("btnTipoNatural");
+  const btnE = document.getElementById("btnTipoEmpresa");
+  if (tipo === "natural") {
+    natural.style.display = ""; empresa.style.display = "none";
+    btnN.className = "btn btn-primary"; btnE.className = "btn";
+  } else {
+    natural.style.display = "none"; empresa.style.display = "";
+    btnN.className = "btn"; btnE.className = "btn btn-primary";
+  }
+}
+
 async function crearCliente() {
   const btn = document.getElementById("btnCrearCli");
   ui.loading(btn, true);
+  const tipo = window._tipoCliente || "natural";
+  let payload;
+
+  if (tipo === "empresa") {
+    const nombre = document.getElementById("cNombreEmp")?.value.trim();
+    const rut    = document.getElementById("cRutEmp")?.value.trim();
+    const tel    = document.getElementById("cTelEmp")?.value.trim();
+    const email  = document.getElementById("cEmailEmp")?.value.trim();
+    if (!nombre || !rut || !tel || !email) {
+      ui.toast("Nombre, RUT, teléfono y email son obligatorios para empresa", "warning");
+      ui.loading(btn, false); return;
+    }
+    payload = {
+      nombre, rut, telefono: tel, email,
+      tipo_cliente: "empresa",
+      direccion:    document.getElementById("cDirEmp")?.value.trim() || null,
+      observaciones:document.getElementById("cObsEmp")?.value.trim() || null,
+    };
+  } else {
+    const nombre = document.getElementById("cNombre")?.value.trim();
+    const tel    = document.getElementById("cTel")?.value.trim();
+    if (!nombre || !tel) {
+      ui.toast("Nombre y teléfono son obligatorios", "warning");
+      ui.loading(btn, false); return;
+    }
+    payload = {
+      nombre, telefono: tel,
+      tipo_cliente: "natural",
+      rut:          document.getElementById("cRut")?.value.trim() || null,
+      email:        document.getElementById("cEmail")?.value.trim() || null,
+      direccion:    document.getElementById("cDir")?.value.trim() || null,
+      observaciones:document.getElementById("cObs")?.value.trim() || null,
+    };
+  }
+
   try {
-    await API.ClientesAPI.crear({
-      nombre:       document.getElementById("cNombre").value.trim(),
-      rut:          document.getElementById("cRut").value.trim() || null,
-      telefono:     document.getElementById("cTel").value.trim(),
-      email:        document.getElementById("cEmail").value.trim() || null,
-      direccion:    document.getElementById("cDir").value.trim() || null,
-      observaciones:document.getElementById("cObs").value.trim() || null,
-    });
+    await API.ClientesAPI.crear(payload);
     closeModal("modalCliente");
     ui.toast("Cliente creado");
     await renderClientes();

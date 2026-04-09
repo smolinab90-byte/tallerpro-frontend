@@ -6,7 +6,7 @@
   <title>TallerPro</title>
   <link rel="stylesheet" href="css/main.css">
   <!-- Configurar URL del backend antes de cargar api.js -->
-  <script>window.TALLERPRO_API = "https://tallerpro-backend-production.up.railway.app/api";</script>
+  <script>window.TALLERPRO_API = "http://localhost:5000/api";</script>
 </head>
 <body>
 <div class="app-shell" id="app" style="display:none">
@@ -149,13 +149,25 @@
       <span class="modal-title">Nuevo cliente</span>
       <button class="modal-close" onclick="closeModal('modalCliente')">×</button>
     </div>
-    <div class="form-grid">
+    <div style="display:flex;gap:8px;padding:0 0 14px">
+      <button id="btnTipoNatural" class="btn btn-primary" style="flex:1" onclick="setTipoCliente('natural')">👤 Persona natural</button>
+      <button id="btnTipoEmpresa" class="btn" style="flex:1" onclick="setTipoCliente('empresa')">🏢 Empresa</button>
+    </div>
+    <div class="form-grid" id="formClienteNatural">
       <div class="form-group"><label>Nombre completo *</label><input type="text" id="cNombre" placeholder="Juan Pérez García"></div>
-      <div class="form-group"><label>RUT</label><input type="text" id="cRut" placeholder="12.345.678-9"></div>
       <div class="form-group"><label>Teléfono *</label><input type="tel" id="cTel" placeholder="+56 9 1234 5678"></div>
+      <div class="form-group"><label>RUT</label><input type="text" id="cRut" placeholder="12.345.678-9"></div>
       <div class="form-group"><label>Email</label><input type="email" id="cEmail" placeholder="juan@email.com"></div>
       <div class="form-group full"><label>Dirección</label><input type="text" id="cDir" placeholder="Av. Principal 123"></div>
       <div class="form-group full"><label>Observaciones</label><textarea id="cObs" rows="2"></textarea></div>
+    </div>
+    <div class="form-grid" id="formClienteEmpresa" style="display:none">
+      <div class="form-group"><label>Nombre empresa *</label><input type="text" id="cNombreEmp" placeholder="Transportes XYZ SpA"></div>
+      <div class="form-group"><label>RUT empresa *</label><input type="text" id="cRutEmp" placeholder="76.123.456-7"></div>
+      <div class="form-group"><label>Teléfono *</label><input type="tel" id="cTelEmp" placeholder="+56 2 1234 5678"></div>
+      <div class="form-group"><label>Email *</label><input type="email" id="cEmailEmp" placeholder="contacto@empresa.cl"></div>
+      <div class="form-group full"><label>Dirección</label><input type="text" id="cDirEmp" placeholder="Av. Industria 456"></div>
+      <div class="form-group full"><label>Observaciones</label><textarea id="cObsEmp" rows="2"></textarea></div>
     </div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('modalCliente')">Cancelar</button>
@@ -224,6 +236,8 @@
   <script src="js/modulos.js"></script>
   <script src="js/inventario.js"></script>
   <script src="js/kanban.js"></script>
+  <script src="js/usuarios.js"></script>
+  <script src="js/pagos.js"></script>
   <script src="js/usuarios.js"></script>
   <script src="js/pagos.js"></script>
 </body>
