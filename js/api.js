@@ -3,7 +3,7 @@
  * Todos los módulos del frontend importan desde aquí.
  */
 
-const API_BASE = window.TALLERPRO_API || "https://tallerpro-backend-production.up.railway.app/api";
+const API_BASE = (window.TALLERPRO_API && !window.TALLERPRO_API.includes('localhost')) ? window.TALLERPRO_API : "https://tallerpro-backend-production.up.railway.app/api";
 
 // ── Token JWT ────────────────────────────────────────────────────────────────
 const Auth = {
